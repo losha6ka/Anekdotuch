@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^2.7.0",
+    "node-telegram-bot-api": "^0.61.0",
+    "nodemo": "^1.0.0",
+    "nodemon": "^3.0.1",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1",
+    "sqlite3": "^5.1.6"
+  },
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "nodemon index.js"
+  }
+}
