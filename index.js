@@ -8,6 +8,19 @@ const MAX_MESSAGE_LENGTH = 4096;
 const conversationMap = new Map();
 const tagMap = new Map();
 const allowedUsers = [456141628, 709027639];
+const fs = require('fs');
+function loadSentJokes() {
+    try {
+        const data = fs.readFileSync('sent_jokes.json', 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        return [];
+    }
+}
+function saveSentJokes(sentJokes) {
+    fs.writeFileSync('sent_jokes.json', JSON.stringify(sentJokes));
+}
+const sentJokes = loadSentJokes();
 bot.setMyCommands([
     { command: "/start", description: "Приветствие" },
     { command: "/copytext", description: "Найти анекдот на сайте" },
@@ -111,8 +124,14 @@ bot.onText(/\/update/, async (msg) => {
                         },
                     };
                     await bot.sendMessage(chatId, 'Добавить анекдот /add', keyboard);
+
+                    // Добавьте отправленный анекдот в массив sentJokes
+                    sentJokes.push(randomLink);
+
+                    // Сохраните массив sentJokes в файле
+                    saveSentJokes(sentJokes);
+
                     // Сохраните полученный текст в состояние
-                    const state = conversationMap.get(chatId) || {};
                     state.copiedText = randomParagraph;
                     conversationMap.set(chatId, state);
                 } else {
